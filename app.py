@@ -7,6 +7,7 @@ import io
 app = Flask(__name__)
 
 def civitai_load_model(model_path):
+
     model = torch.jit.load(model_path, map_location=torch.device('cpu'))
     model.eval()
     return model
@@ -17,6 +18,7 @@ model.eval()
 
 
 def generate_image(text):
+
     image = Image.new('RGB', (256, 256), color=(255, 255, 255))
     tensor = F.to_tensor(image)
     prediction = model(tensor)
@@ -32,12 +34,17 @@ def generate_image(text):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
+ 
         text = request.form['text']
+
+        image = generate_image(text)
+
 
         image = generate_image(text)
 
         return render_template('result.html', text=text, image=image)
 
+    # Render the initial HTML form
     return render_template('index.html')
 
 
