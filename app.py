@@ -30,7 +30,7 @@ def generate_image(text):
 
     return image_bytes
 
-
+# text를 입력하면 ai모델을 거쳐 사진이 나옴
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
