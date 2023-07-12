@@ -4,12 +4,15 @@ python "main.py" --project_name "project" --training_model "/home/softzen/dreamb
 python 3.10버전 설치
 pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
 pip install -r requirements.txt
-2.
+
+3.
 vi main.py
 sys.path.append('/home/softzen/.local/lib/python3.10/site-packages')
-3.
+
+5.
 pip install --upgrade setuptools
-4.
+
+7.
 pip install backports.lzma
 
 cd /usr/local/lib/python3.10
