@@ -12,7 +12,7 @@ def get_gif_info(file_path):
         return frame_count, time_per_frame
 
 output_file = "gif_info.csv" 
-# Open the CSV file in write mode and create a CSV writer
+
 with open(output_file, "w", newline="") as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(["idx", "frame", "time"])  
