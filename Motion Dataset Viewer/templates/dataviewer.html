@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .custom-navbar {
+            background-color: lightgray;
+        }
+        .custom-a {
+            font-size: 23px;
+        }
+       
+        .custom-input {
+            height: 30px;
+            font-size: 12px;
+        }
+
+        nav {
+        position: relative;
+        transform: translateX(-300px);
+        height: 100%;
+        width: 2300px;
+        transition: all 800ms cubic-bezier(.8, 0, .33, 1);
+        border-radius: 0% 0% 100% 50%;
+        }
+
+        nav.nav-open {
+            transform: translateX(-300px);
+            border-radius: 0% 0% 0% 0%;
+        background: rgba(255, 255, 255, 0.6);
+        }
+
+        nav .menu-btn {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            padding: 0;
+            width: 30px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        nav .menu-btn .line {
+            padding: 0;
+            width: 30px;
+            background: #161616;
+            height: 2px;
+            margin: 5px 0;
+            transition: all 700ms cubic-bezier(.9, 0, .33, 1);
+        }
+
+        nav .menu-btn .line.line--1 {
+            width: 30px;
+            transform: rotate(0) translateY(0);
+        }
+
+        nav .menu-btn .line.line--1.line-cross {
+            width: 30px;
+            transform: rotate(45deg) translateY(10px);
+        background: rgba(0,0,0,0.6);
+        }
+
+        nav .menu-btn .line.line--2 {
+            width: 28px;
+            transform: translateX(0);
+        }
+
+        nav .menu-btn .line.line--2.line-fade-out {
+            width: 28px;
+            transform: translate(30px);
+            opacity: 0;
+        }
+
+        nav .menu-btn .line.line--3 {
+            width: 20px;
+            transform: rotate(0) translateY(0);
+        }
+
+        nav .menu-btn .line.line--3.line-cross {
+            width: 30px;
+            transform: rotate(-45deg) translateY(-10px);
+        background: rgba(0,0,0,0.6);
+        }
+
+        nav .nav-links {
+            position: absolute;
+            left: 0;
+            top: 50px;
+            width: 165%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateX(-100px);
+            opacity: 0;
+            transition: all 900ms cubic-bezier(.9, 0, .33, 1);
+    
+        }
+
+        nav .nav-links.fade-in {
+            opacity: 1;
+            transform: translateX(0px);
+        }
+
+        nav .nav-links .link {
+            margin: 5px 0;
+            text-decoration: none;
+            font-family: sans-serif;
+            color: rgba(0,0,0,0.9);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            transition: all 300ms cubic-bezier(.9, 0, .33, 1);
+        }
+
+        nav .nav-links .link:hover {
+            color: rgba(0, 0, 0, .5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <a class="navbar-brand" href="{{ url_for('dataviewer.dataviewerfun') }}"style="display: flex; align-items: center; text-decoration: none; margin-left: 40px;">
+        <img src="{{ url_for('static', filename='dataviewer.png') }}" alt="Icon" width="40" height="40" style="margin-right: 10px;">
+        <span style="font-size: 40px; color: #333; font-weight: bold;">휴먼 모션 데이터셋 보기</span>
+    </a>
+
+    </nav> 
+        <nav>
+            <div class="menu-btn">
+              <div class="line line--1"></div>
+              <div class="line line--2"></div>
+              <div class="line line--3"></div>
+            </div>
+          
+            <div class="nav-links">
+              <a href="{{ url_for('dataviewer.dataviewerfun') }}" class="link"> <img src="{{ url_for('static', filename='dataviewer.png') }}" alt="Icon" width="20" height="20" style="margin-right: 10px;">휴먼 모션 데이터셋 보기</a>
+              <a href="http://127.0.0.1:5000/motionai" class="link"><img src="{{ url_for('static', filename='motionai.png') }}" alt="Icon" width="20" height="20" style="margin-right: 10px;">휴먼 모션 모델 테스트
+            </a>
+            </div>
+    </nav>  
+    <form id="searchForm" method="GET" action="{{ url_for('dataviewer.dataviewerfun') }}">
+        <div class="container" style="margin: 30px;">
+            <div class="d-flex align-items-center">
+                <div class="me-2 custom-a">
+                    <a>데이터셋 종류:</a>
+                </div>
+                <div class="me-2">
+                    <select class="form-select" name="dataset_type" aria-label="Default select example">
+                        <option value="1">humanml</option>
+                        <option value="2">kit</option>
+                    </select>
+                </div>
+                <div class="me-2 custom-a">
+                    <a>인덱스:</a>
+                </div>
+                <div class="me-2">
+                    <input type="text" class="form-control custom-input" name="start_index" placeholder="">
+                </div>
+                <div class="me-2 custom-a">
+                    <a>~</a>
+                </div>
+                <div class="me-2">
+                    <input type="text" class="form-control custom-input" name="end_index" placeholder="">
+                </div>
+                <div class="me-2 custom-a">
+                    <a>설명:</a>
+                </div>
+                <div class="me-2">
+                    <input type="text" class="form-control custom-input" name="description" placeholder="">
+                </div>
+                <div class="me-2">
+                    <button type="submit" class="btn btn-light" style="background-color: lightgray;">검색</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+
+    <div style="text-align: end;margin-right: 100px;">
+        <div style="font-size: 20px;">총 : {{ total_count }}건</div> 
+    </div>
+
+    <table class="table table-striped" style="margin-left: 100px;width: 1650px;">
+        <thead>
+            <tr>
+                <th style="text-align: center; width: 100px;" >인덱스</th>
+                <th style="text-align: center;">동작설명</th>                
+                <th style="text-align: center;">모션</th>
+                <th style="text-align: center;width: 100px;">Frame</th>
+                <th style="text-align: center;width: 100px;">Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in dataset %}
+            <tr>
+                <td>{{ row.idx }}</td>
+                <td><img src="{{ url_for('static', filename='animation/' + row.idx + '.gif') }}" onclick="showModal('{{ row.idx }}', '{{ row.deschan }}')" width="120px" style="cursor: pointer;"></td>
+                <td style="padding-left: 70px;padding-right: 70px;">{{ row.deschan }}</td>
+                <td>{{ row.frame }}</td>
+                <td>{{ row.time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="container">
+        <div class="d-flex align-items-center"style="margin-left: 300px;">
+    <nav aria-label="..." style="margin-left: 350px;">
+        <ul class="pagination">
+
+            {% if current_page == 1 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">First</a>
+            </li>
+            {% for page_num in range(start_page, start_page + 9 if start_page + 9 <= total_pages else total_pages + 1) %}
+
+            <li class="page-item {% if page_num == current_page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=page_num, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">{{ page_num }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=current_page + 1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=total_pages, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Last</a>
+            </li>
+
+            {% elif current_page == total_pages %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=current_page - 1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Previous</a>
+            </li>
+            {% for page_num in range(start_page, total_pages+1) %}
+            <li class="page-item {% if page_num == current_page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=page_num, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">{{ page_num }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=total_pages, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Last</a>
+            </li>
+
+            {% elif current_page > total_pages-5 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=current_page - 1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Previous</a>
+            </li>
+            {% for page_num in range(start_page, total_pages+1) %}
+            <li class="page-item {% if page_num == current_page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=page_num, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">{{ page_num }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=current_page + 1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=total_pages, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Last</a>
+            </li>
+
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=current_page - 1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Previous</a>
+            </li>
+            {% for page_num in range(start_page, start_page+9) %}
+            <li class="page-item {% if page_num == current_page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=page_num, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">{{ page_num }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=current_page + 1, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('dataviewer.dataviewerfun', page=total_pages, dataset_type=dataset_type, start_index=start_index, end_index=end_index, description=description) }}">Last</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+</div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="gifTitle"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img id="gifImage" src="" width="100%">
+                <p id="deschanText"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function showModal(idx, deschan) {
+        var gifImage = document.getElementById("gifImage");
+        var deschanText = document.getElementById("deschanText");
+
+        gifImage.src = "{{ url_for('static', filename='animation/') }}" + idx + ".gif";
+        deschanText.textContent = deschan;
+        document.getElementById("gifTitle").textContent = idx + ".gif";
+
+        $('#myModal').modal('show');
+    }
+</script>
+<script>
+    var menuBtn = document.querySelector('.menu-btn');
+    var nav = document.querySelector('nav');
+    var lineOne = document.querySelector('nav .menu-btn .line--1');
+    var lineTwo = document.querySelector('nav .menu-btn .line--2');
+    var lineThree = document.querySelector('nav .menu-btn .line--3');
+    var link = document.querySelector('nav .nav-links');
+    
+    menuBtn.addEventListener('click', () => {
+        nav.classList.toggle('nav-open');
+        lineOne.classList.toggle('line-cross');
+        lineTwo.classList.toggle('line-fade-out');
+        lineThree.classList.toggle('line-cross');
+        link.classList.toggle('fade-in');
+    });
+</script>
+</body>
+</html>
