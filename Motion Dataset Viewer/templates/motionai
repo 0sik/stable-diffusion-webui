@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .custom-navbar {
+            background-color: lightgray;
+        }
+        .custom-a {
+            font-size: 23px;
+        }
+       
+        .custom-input {
+            height: 30px;
+            font-size: 12px;
+        }
+        .custom-text {
+            font-size: 20px;
+            color: black;
+            margin-top: 20px;
+            margin-left: 600px;
+        }
+        nav {
+        position: relative;
+        transform: translateX(-300px);
+        height: 100%;
+        width: 2300px;
+        transition: all 800ms cubic-bezier(.8, 0, .33, 1);
+        border-radius: 0% 0% 100% 50%;
+        }
+
+        nav.nav-open {
+            transform: translateX(-300px);
+            border-radius: 0% 0% 0% 0%;
+        background: rgba(255, 255, 255, 0.6);
+        }
+
+        nav .menu-btn {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            padding: 0;
+            width: 30px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        nav .menu-btn .line {
+            padding: 0;
+            width: 30px;
+            background: #161616;
+            height: 2px;
+            margin: 5px 0;
+            transition: all 700ms cubic-bezier(.9, 0, .33, 1);
+        }
+
+        nav .menu-btn .line.line--1 {
+            width: 30px;
+            transform: rotate(0) translateY(0);
+        }
+
+        nav .menu-btn .line.line--1.line-cross {
+            width: 30px;
+            transform: rotate(45deg) translateY(10px);
+        background: rgba(0,0,0,0.6);
+        }
+
+        nav .menu-btn .line.line--2 {
+            width: 28px;
+            transform: translateX(0);
+        }
+
+        nav .menu-btn .line.line--2.line-fade-out {
+            width: 28px;
+            transform: translate(30px);
+            opacity: 0;
+        }
+
+        nav .menu-btn .line.line--3 {
+            width: 20px;
+            transform: rotate(0) translateY(0);
+        }
+
+        nav .menu-btn .line.line--3.line-cross {
+            width: 30px;
+            transform: rotate(-45deg) translateY(-10px);
+        background: rgba(0,0,0,0.6);
+        }
+
+        nav .nav-links {
+            position: absolute;
+            left: 0;
+            top: 50px;
+            width: 165%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateX(-100px);
+            opacity: 0;
+            transition: all 900ms cubic-bezier(.9, 0, .33, 1);
+    
+        }
+
+        nav .nav-links.fade-in {
+            opacity: 1;
+            transform: translateX(0px);
+        }
+
+        nav .nav-links .link {
+            margin: 5px 0;
+            text-decoration: none;
+            font-family: sans-serif;
+            color: rgba(0,0,0,0.9);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            transition: all 300ms cubic-bezier(.9, 0, .33, 1);
+        }
+
+        nav .nav-links .link:hover {
+            color: rgba(0, 0, 0, .5);
+        }
+    </style>
+</head>
+<body>
+    <a class="navbar-brand" href="http://127.0.0.1:5000/motionai"style="display: flex; align-items: center; text-decoration: none; margin-left: 40px;">
+        <img src="{{ url_for('static', filename='motionai.png') }}" alt="Icon" width="40" height="40" style="margin-right: 10px;">
+        <span style="font-size: 40px; color: #333; font-weight: bold;">휴먼 모션 모델 테스트</span>
+    </a>
+
+    </nav> 
+        <nav>
+            <div class="menu-btn">
+              <div class="line line--1"></div>
+              <div class="line line--2"></div>
+              <div class="line line--3"></div>
+            </div>
+          
+            <div class="nav-links">
+              <a href="{{ url_for('dataviewer.dataviewerfun') }}" class="link"> <img src="{{ url_for('static', filename='dataviewer.png') }}" alt="Icon" width="20" height="20" style="margin-right: 10px;">휴먼 모션 데이터셋 보기</a>
+              <a href="http://127.0.0.1:5000/motionai" class="link"><img src="{{ url_for('static', filename='motionai.png') }}" alt="Icon" width="20" height="20" style="margin-right: 10px;">휴먼 모션 모델 테스트</a>
+            </div>
+    </nav>
+	<form>
+		<div class="container" style="margin: 30px; margin-left: 100px">
+			<div class="d-flex align-items-center">
+				<div class="me-2 custom-a">
+					<a>모델선택:</a>
+				</div>
+				<div class="me-2">
+					<select class="form-select" aria-label="Default select example">
+						<option value="model00200000.pt">model00200000.pt</option>
+						<option value="model00200001.pt">model00200001.pt</option>
+						<option value="model00200002.pt">model00200002.pt</option>
+					</select>
+				</div>
+				<div class="me-2 custom-a" style="margin-left: 100px;">
+					<a>샘플 개수:</a>
+				</div>
+				<div class="me-2">
+					<select class="form-select" aria-label="Default select example" name="samples" id="samples">
+                        <option value="1" selected>1개</option>
+                        <option value="2">2개</option>
+                        <option value="3">3개</option>
+                        <option value="4">4개</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="container"style="margin: 30px; margin-left: 100px">
+			<div class="d-flex align-items-center">
+				<div class="me-2 custom-a">
+					<a>프롬프트:</a>
+				</div>
+				<div class="me-2"style="margin-left: 1000px;">
+					<button type="button" value="확인" id="submit" class="btn btn-light" style="background-color: rgb(170, 170, 170);">만들기</button>
+				</div>
+			</div>
+		</div>
+		<div class="me-5"style="margin: 30px; margin-left: 100px">
+			<textarea class="form-control" id="prompt" name="prompt" rows="5" style="width: 1200px;;margin-top: 10px;">한 사람이 앞으로 걷다가 물건을 줍는다.</textarea>
+		</div>
+	</form>
+	<div id="result" style="display:none; margin: 0 auto;">
+		<h2 align="center">결과:</h2>
+		<div id="gif_results">
+		</div>
+	</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    var menuBtn = document.querySelector('.menu-btn');
+    var nav = document.querySelector('nav');
+    var lineOne = document.querySelector('nav .menu-btn .line--1');
+    var lineTwo = document.querySelector('nav .menu-btn .line--2');
+    var lineThree = document.querySelector('nav .menu-btn .line--3');
+    var link = document.querySelector('nav .nav-links');
+    
+    menuBtn.addEventListener('click', () => {
+        nav.classList.toggle('nav-open');
+        lineOne.classList.toggle('line-cross');
+        lineTwo.classList.toggle('line-fade-out');
+        lineThree.classList.toggle('line-cross');
+        link.classList.toggle('fade-in');
+    });
+</script>
+</body>
+</html>
