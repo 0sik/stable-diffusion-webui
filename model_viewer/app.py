@@ -44,7 +44,6 @@ def home():
 
         return render_template('result.html', text=text, image=image)
 
-    # Render the initial HTML form
     return render_template('index.html')
 
 
