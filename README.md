@@ -1,3 +1,9 @@
+# softzen project
+
+## 2023-07-03~2023-08-27
+
+
+```
 총 14615개의 데이터셋을 humanml3d를 통해 gif를 만들어서
 그 데이터셋의 정보를 mariadb에 저장
 플라스크와 html css js를 통해 웹사이트를 만들기
@@ -7,3 +13,8 @@
 최종적으로 휴먼 모션 데이터셋 볼수있는 웹사이트 만들기
 flask ,maria DB,html css ,js을 이용해서
 휴먼 모션 데이터셋 볼수있는 웹사이트 만들기 
+```
+
+- stable-diffusion-webui 
+
+- humanml3d
