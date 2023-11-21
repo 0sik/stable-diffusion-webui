@@ -16,6 +16,6 @@ flask ,maria DB,html css ,js을 이용해서
 ```
 
 ## github url
-- stable-diffusion-webui https://github.com/AUTOMATIC1111/stable-diffusion-webui
-
-- humanml3d https://github.com/EricGuo5513/HumanML3D
+- [stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+  
+- [humanml3d](https://github.com/EricGuo5513/HumanML3D)
